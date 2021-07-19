@@ -1,10 +1,10 @@
 
 ####################################################################
-## Author: Gro Nilsen, Knut Liestøl and Ole Christian Lingjærde.
+## Author: Gro Nilsen, Knut LiestÃ¸l and Ole Christian LingjÃ¦rde.
 ## Maintainer: Gro Nilsen <gronilse@ifi.uio.no>
 ## License: Artistic 2.0
 ## Part of the copynumber package
-## Reference: Nilsen and Liestøl et al. (2012), BMC Genomics
+## Reference: Nilsen and LiestÃ¸l et al. (2012), BMC Genomics
 ####################################################################
 
 
@@ -46,11 +46,11 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     data <- pullOutContent(data,what="wins.data")
     stopifnot(ncol(data)>=3)  #something is missing in input data
     #convert chromsomes to index -sb43######################
-    tmpChr <- levels(data$chr) 
+    tmpChr <- levels(as.factor(data$chr)) 
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     levels(data$chr)[levels(data$chr) == key ] <- tmpChrHash[[key]]
+     levels(as.factor(data$chr))[levels(as.factor(data$chr)) == key ] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
    #Extract information from data:
@@ -72,11 +72,11 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     #Read just the two first columns to get chrom and pos
     chrom.pos <- read.table(file=data,sep="\t",header=TRUE,colClasses=c(rep(NA,2),rep("NULL",nSample)),as.is=TRUE)  #chromosomes could be character or numeric
     #convert chromsomes to index -sb43######################
-    tmpChr <- levels(chrom.pos$chr) 
+    tmpChr <- levels(as.factor(chrom.pos$chr)) 
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     levels(chrom.pos$chr)[levels(chrom.pos$chr) == key ] <- tmpChrHash[[key]]
+     levels(as.factor(chrom.pos$chr))[levels(as.factor(chrom.pos$chr)) == key ] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
     chrom <- chrom.pos[,1]
@@ -110,7 +110,7 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
 	  tmpassembly<-tmpassembly[tmpassembly$chrom %in% c(keys(tmpChrHash)), ]
 	  tmpassembly<-droplevels(tmpassembly)
 	  for (key in keys(tmpChrHash)) {
-     levels(tmpassembly$chrom)[levels(tmpassembly$chrom) == key ] <- tmpChrHash[[key]]
+     levels(as.factor(tmpassembly$chrom))[levels(as.factor(tmpassembly$chrom)) == key ] <- tmpChrHash[[key]]
     } 
     arms <- getArms(num.chrom,position,pos.unit,tmpassembly)
 	}else{
