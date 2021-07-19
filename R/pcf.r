@@ -50,7 +50,7 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     levels(as.factor(data$chr))[levels(as.factor(data$chr)) == key ] <- tmpChrHash[[key]]
+     tmpChr[tmpChr == key] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
    #Extract information from data:
@@ -76,7 +76,7 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     levels(as.factor(chrom.pos$chr))[levels(as.factor(chrom.pos$chr)) == key ] <- tmpChrHash[[key]]
+     tmpChr[tmpChr == key] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
     chrom <- chrom.pos[,1]
@@ -109,8 +109,9 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
 	  #restrict assembly to chromosomes in the data frame
 	  tmpassembly<-tmpassembly[tmpassembly$chrom %in% c(keys(tmpChrHash)), ]
 	  tmpassembly<-droplevels(tmpassembly)
+	  tmpassemblyChr <- levels(as.factor(tmpassembly$chrom))
 	  for (key in keys(tmpChrHash)) {
-     levels(as.factor(tmpassembly$chrom))[levels(as.factor(tmpassembly$chrom)) == key ] <- tmpChrHash[[key]]
+     tmpassemblyChr[tmpassemblyChr == key] <- tmpChrHash[[key]]
     } 
     arms <- getArms(num.chrom,position,pos.unit,tmpassembly)
 	}else{
