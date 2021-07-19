@@ -1,3 +1,7 @@
+************* 
+This package is a fork from https://github.com/Irrationone/copynumber with minor modification for supporting R-4.
+*************
+
 Copynumber with species agnostic pcf
 ====================================
 This repository is forked from:
