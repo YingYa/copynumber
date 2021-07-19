@@ -46,11 +46,12 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     data <- pullOutContent(data,what="wins.data")
     stopifnot(ncol(data)>=3)  #something is missing in input data
     #convert chromsomes to index -sb43######################
-    tmpChr <- levels(as.factor(data$chr)) 
+    data$chr <- as.factor(data$chr)
+    tmpChr <- levels(data$chr) 
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     tmpChr[tmpChr == key] <- tmpChrHash[[key]]
+     levels(data$chr)[levels(data$chr) == key] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
    #Extract information from data:
@@ -72,11 +73,12 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
     #Read just the two first columns to get chrom and pos
     chrom.pos <- read.table(file=data,sep="\t",header=TRUE,colClasses=c(rep(NA,2),rep("NULL",nSample)),as.is=TRUE)  #chromosomes could be character or numeric
     #convert chromsomes to index -sb43######################
-    tmpChr <- levels(as.factor(chrom.pos$chr)) 
+    chrom.pos$chr <- as.factor(chrom.pos$chr)
+    tmpChr <- levels(chrom.pos$chr) 
     tmpChrHash<-hash(tmpChr,1:length(tmpChr))
     # convert data frame to 
     for (key in keys(tmpChrHash)) {
-     tmpChr[tmpChr == key] <- tmpChrHash[[key]]
+     levels(chrom.pos$chr)[levels(chrom.pos$chr) == key] <- tmpChrHash[[key]]
     } 
     #end sb43 ######################
     chrom <- chrom.pos[,1]
@@ -107,11 +109,11 @@ pcf <- function(data,pos.unit="bp",arms=NULL,Y=NULL,kmin=5,gamma=40,normalize=TR
 	  }
 	  names(tmpassembly)<-c("chrom","chromStart","chromEnd","name","gieStain")
 	  #restrict assembly to chromosomes in the data frame
+	  tmpassembly$chrom <- as.factor(tmpassembly$chrom)
 	  tmpassembly<-tmpassembly[tmpassembly$chrom %in% c(keys(tmpChrHash)), ]
 	  tmpassembly<-droplevels(tmpassembly)
-	  tmpassemblyChr <- levels(as.factor(tmpassembly$chrom))
 	  for (key in keys(tmpChrHash)) {
-     tmpassemblyChr[tmpassemblyChr == key] <- tmpChrHash[[key]]
+     levels(tmpassembly$chrom)[levels(tmpassembly$chrom) == key] <- tmpChrHash[[key]]
     } 
     arms <- getArms(num.chrom,position,pos.unit,tmpassembly)
 	}else{
